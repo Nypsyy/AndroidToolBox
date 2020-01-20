@@ -16,4 +16,25 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:baselineAligned="false">
+
+        <fragment
+            android:id="@+id/list"
+            android:name="fr.isen.mayeul.androidtoolbox.LifeCycleFragmentList"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"></fragment>
+
+        <fragment
+            android:id="@+id/viewer"
+            android:name="fr.isen.mayeul.androidtoolbox.LifeCycleFragmentViewer"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"></fragment>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

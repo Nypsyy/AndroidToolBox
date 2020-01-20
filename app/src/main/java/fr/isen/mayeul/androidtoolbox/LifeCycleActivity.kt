@@ -4,33 +4,40 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import kotlinx.android.synthetic.main.activity_life_cycle.*
 
 class LifeCycleActivity : AppCompatActivity() {
+
+    private val fm = supportFragmentManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_life_cycle)
     }
 
-    override fun onStart() {
-        super.onStart()
-        lifeCycleState.text = "En cours..."
+    private fun notification(message: String, isActive: Boolean) {
+        if (isActive)
+            lifeCycleState.text = message
+        else
+            Log.d("INFO", message)
     }
 
-    override fun onRestart() {
-        super.onRestart()
-        lifeCycleState.text = "En cours..."
+    override fun onStart() {
+        super.onStart()
+        notification("onStart...", true)
     }
 
     override fun onResume() {
         super.onResume()
-        lifeCycleState.text = "En cours..."
+        notification("onResume...", true)
     }
 
     override fun onPause() {
         super.onPause()
-        Log.d("INFO", "En arrière plan...")
+        notification("onPause", false)
     }
 
     override fun onDestroy() {
