@@ -9,4 +9,15 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+    <string name="connexion_title">Connexion</string>
+    <string name="img_desc">ISEN logo</string>
+    <string name="prompt_identifiant">Identifiant</string>
+    <string name="life_cycle">Cycle de vie</string>
+    <string name="web_services">Webservices</string>
+    <string name="save">Sauvegarde</string>
+    <string name="permissions">Permissions</string>
+    <string name="phoneDesc">Phone call</string>
+    <string name="chatDesc">Chat bubble</string>
+    <string name="simDesc">Sim card</string>
+    <string name="dlDesc">Download</string>
 </resources>

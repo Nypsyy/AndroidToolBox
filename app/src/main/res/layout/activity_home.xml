@@ -6,4 +6,118 @@
     android:layout_height="match_parent"
     tools:context=".HomeActivity">
 
+    <ImageView
+        android:id="@+id/isenLogo"
+        android:layout_width="254dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="72dp"
+        android:contentDescription="@string/img_desc"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/isen_logo" />
+
+    <TextView
+        android:id="@+id/HelloTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/welcome"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/isenLogo"
+        app:layout_constraintVertical_bias="0.129"
+        tools:text="Bonjour" />
+
+    <ImageButton
+        android:id="@+id/phoneButton"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:background="@color/colorPrimary"
+        android:contentDescription="@string/phoneDesc"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/dlButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/chatText"
+        app:srcCompat="@android:drawable/stat_sys_speakerphone" />
+
+    <ImageButton
+        android:id="@+id/chatButton"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:background="@color/colorPrimary"
+        android:contentDescription="@string/chatDesc"
+        app:layout_constraintBottom_toTopOf="@+id/phoneButton"
+        app:layout_constraintEnd_toStartOf="@+id/simButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/HelloTitle"
+        app:srcCompat="@android:drawable/stat_notify_chat" />
+
+    <ImageButton
+        android:id="@+id/dlButton"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:background="@color/colorPrimary"
+        android:contentDescription="@string/dlDesc"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/phoneButton"
+        app:layout_constraintTop_toTopOf="@+id/simText"
+        app:srcCompat="@android:drawable/stat_sys_download" />
+
+    <ImageButton
+        android:id="@+id/simButton"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:background="@color/colorPrimary"
+        android:contentDescription="@string/simDesc"
+        app:layout_constraintBottom_toTopOf="@id/dlButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/chatButton"
+        app:layout_constraintTop_toBottomOf="@+id/HelloTitle"
+        app:srcCompat="@android:drawable/stat_notify_sdcard" />
+
+    <TextView
+        android:id="@+id/phoneText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/life_cycle"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/phoneButton"
+        app:layout_constraintStart_toStartOf="@+id/phoneButton"
+        app:layout_constraintTop_toBottomOf="@+id/phoneButton" />
+
+    <TextView
+        android:id="@+id/dlText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/web_services"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/dlButton"
+        app:layout_constraintStart_toStartOf="@+id/dlButton"
+        app:layout_constraintTop_toBottomOf="@+id/dlButton" />
+
+    <TextView
+        android:id="@+id/chatText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/permissions"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/chatButton"
+        app:layout_constraintStart_toStartOf="@+id/chatButton"
+        app:layout_constraintTop_toBottomOf="@+id/chatButton" />
+
+    <TextView
+        android:id="@+id/simText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/save"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/simButton"
+        app:layout_constraintStart_toStartOf="@+id/simButton"
+        app:layout_constraintTop_toBottomOf="@+id/simButton" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
