@@ -11,23 +11,6 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="LoginActivity">
 
-    <Button
-        android:id="@+id/confirmInput"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        android:layout_marginStart="48dp"
-        android:layout_marginEnd="48dp"
-        android:layout_marginBottom="64dp"
-        android:background="@color/colorPrimary"
-        android:enabled="false"
-        android:text="@string/action_sign_in"
-        android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:text="Valider" />
-
     <TextView
         android:id="@+id/loginTitle"
         android:layout_width="wrap_content"
@@ -45,32 +28,34 @@
         android:id="@+id/isenLogo"
         android:layout_width="248dp"
         android:layout_height="107dp"
+        android:layout_marginBottom="200dp"
         android:contentDescription="@string/img_desc"
-        app:layout_constraintBottom_toTopOf="@+id/confirmInput"
+        app:layout_constraintBottom_toTopOf="@id/confirmButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/loginTitle"
-        app:layout_constraintVertical_bias="0.092"
-        tools:srcCompat="@drawable/isen_logo" />
+        app:srcCompat="@drawable/isen_logo" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/idLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColorHint="@color/colorPrimary"
-        app:layout_constraintBottom_toTopOf="@+id/confirmInput"
+        app:layout_constraintBottom_toTopOf="@id/confirmButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/isenLogo">
+        app:layout_constraintTop_toBottomOf="@+id/isenLogo"
+        app:passwordToggleTint="@color/colorPrimary">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/idInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/prompt_identifiant"
-            android:inputType="textEmailAddress" />
+            android:inputType="text|textEmailAddress"
+            android:textSize="14sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -78,18 +63,33 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColorHint="@color/colorPrimary"
-        app:layout_constraintBottom_toTopOf="@+id/confirmInput"
+        app:layout_constraintBottom_toTopOf="@id/confirmButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/idLayout">
+        app:layout_constraintTop_toBottomOf="@+id/idLayout"
+        app:passwordToggleTint="@color/colorPrimary">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/passInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/prompt_password"
-            android:inputType="textPassword" />
+            android:inputType="text|textPassword"
+            android:textSize="14sp" />
     </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/confirmButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="64dp"
+        android:background="@color/colorPrimary"
+        android:text="@string/valid_input"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

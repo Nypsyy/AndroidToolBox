@@ -33,91 +33,91 @@
         tools:text="Bonjour" />
 
     <ImageButton
-        android:id="@+id/phoneButton"
+        android:id="@+id/permButton"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:background="@color/colorPrimary"
         android:contentDescription="@string/phoneDesc"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/dlButton"
+        app:layout_constraintEnd_toStartOf="@+id/webButton"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/chatText"
+        app:layout_constraintTop_toTopOf="@+id/lifeCycle"
         app:srcCompat="@android:drawable/stat_sys_speakerphone" />
 
     <ImageButton
-        android:id="@+id/chatButton"
+        android:id="@+id/lifeCycleButton"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:background="@color/colorPrimary"
         android:contentDescription="@string/chatDesc"
-        app:layout_constraintBottom_toTopOf="@+id/phoneButton"
-        app:layout_constraintEnd_toStartOf="@+id/simButton"
+        app:layout_constraintBottom_toTopOf="@+id/permButton"
+        app:layout_constraintEnd_toStartOf="@+id/saveButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/HelloTitle"
         app:srcCompat="@android:drawable/stat_notify_chat" />
 
     <ImageButton
-        android:id="@+id/dlButton"
+        android:id="@+id/webButton"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:background="@color/colorPrimary"
         android:contentDescription="@string/dlDesc"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/phoneButton"
-        app:layout_constraintTop_toTopOf="@+id/simText"
+        app:layout_constraintStart_toEndOf="@+id/permButton"
+        app:layout_constraintTop_toTopOf="@+id/save"
         app:srcCompat="@android:drawable/stat_sys_download" />
 
     <ImageButton
-        android:id="@+id/simButton"
+        android:id="@+id/saveButton"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:background="@color/colorPrimary"
         android:contentDescription="@string/simDesc"
-        app:layout_constraintBottom_toTopOf="@id/dlButton"
+        app:layout_constraintBottom_toTopOf="@id/webButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/chatButton"
+        app:layout_constraintStart_toEndOf="@+id/lifeCycleButton"
         app:layout_constraintTop_toBottomOf="@+id/HelloTitle"
         app:srcCompat="@android:drawable/stat_notify_sdcard" />
 
     <TextView
-        android:id="@+id/phoneText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/life_cycle"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="@+id/phoneButton"
-        app:layout_constraintStart_toStartOf="@+id/phoneButton"
-        app:layout_constraintTop_toBottomOf="@+id/phoneButton" />
-
-    <TextView
-        android:id="@+id/dlText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/web_services"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="@+id/dlButton"
-        app:layout_constraintStart_toStartOf="@+id/dlButton"
-        app:layout_constraintTop_toBottomOf="@+id/dlButton" />
-
-    <TextView
-        android:id="@+id/chatText"
+        android:id="@+id/perm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/permissions"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="@+id/chatButton"
-        app:layout_constraintStart_toStartOf="@+id/chatButton"
-        app:layout_constraintTop_toBottomOf="@+id/chatButton" />
+        app:layout_constraintEnd_toEndOf="@+id/permButton"
+        app:layout_constraintStart_toStartOf="@+id/permButton"
+        app:layout_constraintTop_toBottomOf="@+id/permButton" />
 
     <TextView
-        android:id="@+id/simText"
+        android:id="@+id/web"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/web_services"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/webButton"
+        app:layout_constraintStart_toStartOf="@+id/webButton"
+        app:layout_constraintTop_toBottomOf="@+id/webButton" />
+
+    <TextView
+        android:id="@+id/lifeCycle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/life_cycle"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/lifeCycleButton"
+        app:layout_constraintStart_toStartOf="@+id/lifeCycleButton"
+        app:layout_constraintTop_toBottomOf="@+id/lifeCycleButton" />
+
+    <TextView
+        android:id="@+id/save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/save"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="@+id/simButton"
-        app:layout_constraintStart_toStartOf="@+id/simButton"
-        app:layout_constraintTop_toBottomOf="@+id/simButton" />
+        app:layout_constraintEnd_toEndOf="@+id/saveButton"
+        app:layout_constraintStart_toStartOf="@+id/saveButton"
+        app:layout_constraintTop_toBottomOf="@+id/saveButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

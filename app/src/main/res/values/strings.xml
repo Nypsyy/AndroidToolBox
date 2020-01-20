@@ -20,4 +20,6 @@
     <string name="chatDesc">Chat bubble</string>
     <string name="simDesc">Sim card</string>
     <string name="dlDesc">Download</string>
+    <string name="valid_input">Valider</string>
+    <string name="life_cycle_state" />
 </resources>

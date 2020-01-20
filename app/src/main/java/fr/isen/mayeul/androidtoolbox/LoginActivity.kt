@@ -1,6 +1,8 @@
 package fr.isen.mayeul.androidtoolbox
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_login.*
@@ -14,14 +16,15 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        confirmInput.setOnClickListener {
-            val message: String = "Tu as entré" + idInput.text.toString()
-            Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+        confirmButton.setOnClickListener {
+            this.onConfirmClick()
         }
+    }
 
-        /*confirmInput.setOnClickListener {
-            if (idInput.text.toString() == this.id && passInput.text.toString().toShort() == this.pass)
-                Toast.makeText(this, "Authentication succeeded !", Toast.LENGTH_LONG).show()
-        }*/
+    private fun onConfirmClick() {
+        if (idInput.text.toString() == this.id && passInput.text.toString().toShort() == this.pass) {
+            val homePage = Intent(this, HomeActivity::class.java)
+            startActivity(homePage)
+        }
     }
 }
