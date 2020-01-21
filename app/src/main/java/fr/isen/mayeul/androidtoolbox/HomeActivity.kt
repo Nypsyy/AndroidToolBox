@@ -23,11 +23,18 @@ class HomeActivity : AppCompatActivity() {
         disconnectButton.setOnClickListener {
             onClickDisconnectButton()
         }
+
+        formButton.setOnClickListener {
+            onClickSaveButton()
+        }
     }
 
     private fun onClickLifeCycleButton() {
-        val lifeCyclePage = Intent(this, LifeCycleActivity::class.java)
-        startActivity(lifeCyclePage)
+        newIntent(this, LifeCycleActivity::class.java)
+    }
+
+    private fun onClickSaveButton() {
+        newIntent(this, SaveActivity::class.java)
     }
 
     private fun onClickDisconnectButton() {
@@ -37,8 +44,11 @@ class HomeActivity : AppCompatActivity() {
         editor.clear()
         editor.apply()
 
-        val loginPage = Intent(this, LoginActivity::class.java)
-        startActivity(loginPage)
+        newIntent(this, LoginActivity::class.java)
         finish()
+    }
+
+    private fun newIntent(context: Context, c: Class<*>) {
+        startActivity(Intent(context, c))
     }
 }

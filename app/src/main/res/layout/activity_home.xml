@@ -52,7 +52,7 @@
         android:background="@color/colorPrimary"
         android:contentDescription="@string/chatDesc"
         app:layout_constraintBottom_toTopOf="@+id/permButton"
-        app:layout_constraintEnd_toStartOf="@+id/saveButton"
+        app:layout_constraintEnd_toStartOf="@+id/formButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/HelloTitle"
         app:srcCompat="@android:drawable/stat_notify_chat" />
@@ -71,7 +71,7 @@
         app:srcCompat="@android:drawable/stat_sys_download" />
 
     <ImageButton
-        android:id="@+id/saveButton"
+        android:id="@+id/formButton"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:background="@color/colorPrimary"
@@ -118,9 +118,9 @@
         android:layout_height="wrap_content"
         android:text="@string/save"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="@+id/saveButton"
-        app:layout_constraintStart_toStartOf="@+id/saveButton"
-        app:layout_constraintTop_toBottomOf="@+id/saveButton" />
+        app:layout_constraintEnd_toEndOf="@+id/formButton"
+        app:layout_constraintStart_toStartOf="@+id/formButton"
+        app:layout_constraintTop_toBottomOf="@+id/formButton" />
 
     <Button
         android:id="@+id/disconnectButton"

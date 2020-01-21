@@ -28,7 +28,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         confirmButton.setOnClickListener {
-            this.onConfirmClick(preferences)
+            onConfirmClick(preferences)
         }
     }
 
@@ -48,8 +48,11 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun redirectHome() {
-        val homePage = Intent(this, HomeActivity::class.java)
-        startActivity(homePage)
+        newIntent(this, HomeActivity::class.java)
         finish()
+    }
+
+    private fun newIntent(context: Context, c: Class<*>) {
+        startActivity(Intent(context, c))
     }
 }
