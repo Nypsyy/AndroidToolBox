@@ -1,30 +1,55 @@
 package fr.isen.mayeul.androidtoolbox
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
-import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity() {
 
-    private val id: String = "admin"
-    private val pass: Short = 123
+    private val adminCredentials: Pair<String, Int> = Pair("admin", 123)
+    private val prefName: String = "Shared Preferences"
+    private val prefId: String = "Login ID"
+    private val prefPass: String = "Login Password"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
+        val preferences: SharedPreferences = getSharedPreferences(prefName, Context.MODE_PRIVATE)
+
+        val loginCache: Pair<String, Int> =
+            Pair(preferences.getString(prefId, null), preferences.getInt(prefPass, 0))
+
+        if (loginCache == adminCredentials) {
+            redirectHome()
+        }
+
         confirmButton.setOnClickListener {
-            this.onConfirmClick()
+            this.onConfirmClick(preferences)
         }
     }
 
-    private fun onConfirmClick() {
-        if (idInput.text.toString() == this.id && passInput.text.toString().toShort() == this.pass) {
-            val homePage = Intent(this, HomeActivity::class.java)
-            startActivity(homePage)
+    private fun onConfirmClick(pref: SharedPreferences) {
+        val credentials: Pair<String, Int> =
+            Pair(idInput.text.toString(), passInput.text.toString().toInt())
+
+        if (credentials == adminCredentials) {
+            val editor = pref.edit()
+
+            editor.putString(prefId, credentials.first)
+            editor.putInt(prefPass, credentials.second)
+            editor.apply()
+
+            redirectHome()
         }
+    }
+
+    private fun redirectHome() {
+        val homePage = Intent(this, HomeActivity::class.java)
+        startActivity(homePage)
+        finish()
     }
 }

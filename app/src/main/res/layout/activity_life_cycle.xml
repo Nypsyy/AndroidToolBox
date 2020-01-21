@@ -4,37 +4,39 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LifeCycleActivity">
+    tools:context=".lifecycle.LifeCycleActivity">
+
+    <FrameLayout
+        android:id="@+id/fragmentLayout"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </FrameLayout>
+
+    <Button
+        android:id="@+id/buttonFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent"
+        android:text="@string/valid_input"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragmentLayout" />
 
     <TextView
         android:id="@+id/lifeCycleState"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
-        android:text="@string/life_cycle_state"
+        app:layout_constraintBottom_toTopOf="@+id/fragmentLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:baselineAligned="false">
-
-        <fragment
-            android:id="@+id/list"
-            android:name="fr.isen.mayeul.androidtoolbox.LifeCycleFragmentList"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"></fragment>
-
-        <fragment
-            android:id="@+id/viewer"
-            android:name="fr.isen.mayeul.androidtoolbox.LifeCycleFragmentViewer"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"></fragment>
-    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

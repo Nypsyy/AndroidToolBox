@@ -42,6 +42,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColorHint="@color/colorPrimary"
+        app:boxStrokeColor="@color/colorPrimary"
         app:layout_constraintBottom_toTopOf="@id/confirmButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -54,7 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/prompt_identifiant"
-            android:inputType="text|textEmailAddress"
+            android:inputType="text"
             android:textSize="14sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -63,6 +64,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColorHint="@color/colorPrimary"
+        app:boxStrokeColor="@color/colorPrimary"
         app:layout_constraintBottom_toTopOf="@id/confirmButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -75,7 +77,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/prompt_password"
-            android:inputType="text|textPassword"
+            android:inputType="textPassword"
             android:textSize="14sp" />
     </com.google.android.material.textfield.TextInputLayout>
 

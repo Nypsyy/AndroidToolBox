@@ -36,6 +36,7 @@
         android:id="@+id/permButton"
         android:layout_width="80dp"
         android:layout_height="80dp"
+        android:layout_marginBottom="100dp"
         android:background="@color/colorPrimary"
         android:contentDescription="@string/phoneDesc"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -60,6 +61,7 @@
         android:id="@+id/webButton"
         android:layout_width="80dp"
         android:layout_height="80dp"
+        android:layout_marginBottom="100dp"
         android:background="@color/colorPrimary"
         android:contentDescription="@string/dlDesc"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -119,5 +121,18 @@
         app:layout_constraintEnd_toEndOf="@+id/saveButton"
         app:layout_constraintStart_toStartOf="@+id/saveButton"
         app:layout_constraintTop_toBottomOf="@+id/saveButton" />
+
+    <Button
+        android:id="@+id/disconnectButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:background="#3F51B5"
+        android:text="@string/deconnection"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

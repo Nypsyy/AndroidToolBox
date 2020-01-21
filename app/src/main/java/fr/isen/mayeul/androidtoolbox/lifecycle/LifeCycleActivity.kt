@@ -1,21 +1,39 @@
-package fr.isen.mayeul.androidtoolbox
+package fr.isen.mayeul.androidtoolbox.lifecycle
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
+import fr.isen.mayeul.androidtoolbox.R
 import kotlinx.android.synthetic.main.activity_life_cycle.*
 
 class LifeCycleActivity : AppCompatActivity() {
 
-    private val fm = supportFragmentManager
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_life_cycle)
+
+        notification("onCreate", true)
+
+        val fragment1 =
+            LifeCycleFragment1()
+        val fragment2 =
+            LifeCycleFragment2()
+        val transaction = supportFragmentManager.beginTransaction()
+
+        transaction.add(R.id.fragmentLayout, fragment1).commit()
+
+        buttonFragment.setOnClickListener {
+            if (fragment1.isResumed) {
+                Log.d("INFO", "Fragment 1 resumed")
+                supportFragmentManager.beginTransaction().replace(R.id.fragmentLayout, fragment2)
+                    .commit()
+            } else {
+                Log.d("INFO", "Fragment 2 resumed")
+                supportFragmentManager.beginTransaction().replace(R.id.fragmentLayout, fragment1)
+                    .commit()
+            }
+        }
     }
 
     private fun notification(message: String, isActive: Boolean) {
