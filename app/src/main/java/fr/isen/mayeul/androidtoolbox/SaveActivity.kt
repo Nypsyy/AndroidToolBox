@@ -16,6 +16,7 @@ class SaveActivity : AppCompatActivity() {
     private var jsonObject: JsonObject = JsonObject()
     private var calendar = Calendar.getInstance()
     private val format = "dd/MM/yyyy"
+    private var age = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +35,7 @@ class SaveActivity : AppCompatActivity() {
             calendar.set(Calendar.MONTH, month)
             calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
             updateDateInView()
+            age = getAge(year, month, dayOfMonth)
         }
 
         datePicker.setOnClickListener {
@@ -69,8 +71,6 @@ class SaveActivity : AppCompatActivity() {
 
     private fun onSeeClick() {
         try {
-            val age = getAge()
-
             val dialog = AlertDialog.Builder(this)
 
             dialog.setTitle("Info utilisateur")
@@ -85,19 +85,16 @@ class SaveActivity : AppCompatActivity() {
         }
     }
 
-    private fun getAge(): Int {
-        var offset = -1
-        val birthList = jsonObject.get("birth_date").asString.split("/")
-        val todayList = LocalDate.now().toString().split("-")
+    private fun getAge(year: Int, month: Int, day: Int): Int {
+        val today = Calendar.getInstance()
+        val birth = Calendar.getInstance()
 
-        val monthDiff = todayList.elementAt(1).toInt() - birthList.elementAt(1).toInt()
-        if (monthDiff == 0) {
-            val dayDiff = todayList.elementAt(2).toInt() - birthList.elementAt(0).toInt()
-            offset = if (dayDiff < 0) -1 else 0
-        } else if (monthDiff > 0) {
-            offset = 0
-        }
+        birth[year, month] = day
 
-        return todayList.elementAt(0).toInt() - birthList.elementAt(2).toInt() - offset
+        var age = today[Calendar.YEAR] - birth[Calendar.YEAR]
+        if (today[Calendar.DAY_OF_YEAR] < birth[Calendar.DAY_OF_YEAR])
+            age--
+
+        return age
     }
 }

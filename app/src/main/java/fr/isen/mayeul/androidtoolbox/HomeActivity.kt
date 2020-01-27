@@ -27,6 +27,10 @@ class HomeActivity : AppCompatActivity() {
         formButton.setOnClickListener {
             onClickSaveButton()
         }
+
+        permButton.setOnClickListener {
+            onClickPermButton()
+        }
     }
 
     private fun onClickLifeCycleButton() {
@@ -35,6 +39,10 @@ class HomeActivity : AppCompatActivity() {
 
     private fun onClickSaveButton() {
         newIntent(this, SaveActivity::class.java)
+    }
+
+    private fun onClickPermButton() {
+        newIntent(this, PermActivity::class.java)
     }
 
     private fun onClickDisconnectButton() {
