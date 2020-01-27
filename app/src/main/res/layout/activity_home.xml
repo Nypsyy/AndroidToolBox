@@ -126,7 +126,7 @@
         android:layout_width="110dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="50dp"
-        android:background="@drawable/button_border_settings"
+        android:background="@color/colorPrimaryDark"
         android:text="@string/deconnection"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"

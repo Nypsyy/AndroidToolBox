@@ -6,6 +6,7 @@ import android.util.Log
 import android.widget.Toast
 import fr.isen.mayeul.androidtoolbox.R
 import kotlinx.android.synthetic.main.activity_life_cycle.*
+import maes.tech.intentanim.CustomIntent
 
 class LifeCycleActivity : AppCompatActivity() {
 
@@ -34,6 +35,8 @@ class LifeCycleActivity : AppCompatActivity() {
                     .commit()
             }
         }
+
+        CustomIntent.customType(this, "fadein-to-fadeout")
     }
 
     private fun notification(message: String, isActive: Boolean) {

@@ -31,6 +31,8 @@ class LoginActivity : AppCompatActivity() {
         confirmButton.setOnClickListener {
             onConfirmClick(preferences)
         }
+
+        CustomIntent.customType(this, "fadein-to-fadeout")
     }
 
     private fun onConfirmClick(pref: SharedPreferences) {
@@ -55,6 +57,5 @@ class LoginActivity : AppCompatActivity() {
 
     private fun newIntent(context: Context, c: Class<*>) {
         startActivity(Intent(context, c))
-        CustomIntent.customType(this, "fadein-to-fadeout")
     }
 }

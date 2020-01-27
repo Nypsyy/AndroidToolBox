@@ -4,16 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/cosmic"
     tools:context=".PermActivity">
 
     <TextView
         android:id="@+id/permTitle"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="16dp"
         android:text="@string/perm_title"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,41 +24,56 @@
 
     <ImageView
         android:id="@+id/imgSelect"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="32dp"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
         android:contentDescription="@string/select_img_desc"
         app:layout_constraintBottom_toTopOf="@+id/recyclerContact"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/permTitle"
         app:srcCompat="@android:drawable/ic_menu_camera" />
 
     <TextView
         android:id="@+id/latText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
         android:text="@string/latt_text"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@id/longText"
-        app:layout_constraintStart_toEndOf="@+id/imgSelect"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/permTitle" />
 
     <TextView
         android:id="@+id/longText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
         android:text="@string/long_text"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerContact"
-        app:layout_constraintStart_toEndOf="@+id/imgSelect"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/imgSelect"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/latText" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerContact"
         android:layout_width="0dp"
-        android:layout_height="400dp"
+        android:layout_height="380dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:contentDescription="@string/phoneDesc"
+        app:layout_constraintBottom_toBottomOf="@+id/permTitle"
+        app:layout_constraintEnd_toStartOf="@+id/permTitle"
+        app:layout_constraintTop_toTopOf="@+id/permTitle"
+        app:srcCompat="@android:drawable/stat_sys_speakerphone" />
 </androidx.constraintlayout.widget.ConstraintLayout>

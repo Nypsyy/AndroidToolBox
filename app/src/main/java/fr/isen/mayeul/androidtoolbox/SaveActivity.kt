@@ -7,6 +7,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.activity_save.*
+import maes.tech.intentanim.CustomIntent
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -47,6 +48,8 @@ class SaveActivity : AppCompatActivity() {
                 calendar.get(Calendar.DAY_OF_MONTH)
             ).show()
         }
+
+        CustomIntent.customType(this, "fadein-to-fadeout")
     }
 
     private fun updateDateInView() {

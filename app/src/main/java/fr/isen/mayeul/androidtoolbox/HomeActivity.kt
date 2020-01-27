@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import fr.isen.mayeul.androidtoolbox.lifecycle.LifeCycleActivity
 import kotlinx.android.synthetic.main.activity_home.*
+import maes.tech.intentanim.CustomIntent
 
 class HomeActivity : AppCompatActivity() {
 
@@ -31,6 +32,8 @@ class HomeActivity : AppCompatActivity() {
         permButton.setOnClickListener {
             onClickPermButton()
         }
+
+        CustomIntent.customType(this, "fadein-to-fadeout")
     }
 
     private fun onClickLifeCycleButton() {
@@ -58,5 +61,10 @@ class HomeActivity : AppCompatActivity() {
 
     private fun newIntent(context: Context, c: Class<*>) {
         startActivity(Intent(context, c))
+    }
+
+    override fun onResume() {
+        super.onResume()
+        CustomIntent.customType(this, "fadein-to-fadeout")
     }
 }

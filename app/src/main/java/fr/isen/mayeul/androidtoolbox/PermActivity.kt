@@ -4,7 +4,6 @@ import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.Service
-import android.content.ContentResolver
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -12,17 +11,14 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
-import android.provider.ContactsContract
 import android.provider.MediaStore
 import android.provider.Settings
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_perm.*
-import kotlinx.android.synthetic.main.recycler_item_contact.*
+import maes.tech.intentanim.CustomIntent
 
 class PermActivity : AppCompatActivity(), LocationListener {
 
@@ -52,7 +48,7 @@ class PermActivity : AppCompatActivity(), LocationListener {
 
         initLocation()
 
-        loadContacts()
+        //loadContacts()
 
         imgSelect.setOnClickListener {
             if (checkPicturePermissions())
@@ -60,6 +56,8 @@ class PermActivity : AppCompatActivity(), LocationListener {
             else
                 requestPicPermissions()
         }
+
+        CustomIntent.customType(this, "fadein-to-fadeout")
     }
 
     private fun requestAPermission(perm: String, code: Int) {
@@ -113,13 +111,13 @@ class PermActivity : AppCompatActivity(), LocationListener {
         return true
     }
 
-    private fun getContacts(): ArrayList<String> {
+    /*private fun getContacts(): ArrayList<String> {
         val contacts: ArrayList<String> = ArrayList()
 
         return contacts
-    }
+    }*/
 
-    private fun loadContacts() {
+    /*private fun loadContacts() {
         val contacts: ArrayList<String>
         if (checkPermissions(Manifest.permission.READ_CONTACTS)) {
             contacts = getContacts()
@@ -127,14 +125,14 @@ class PermActivity : AppCompatActivity(), LocationListener {
         } else {
             requestAPermission(Manifest.permission.READ_CONTACTS, READ_CONTACT_PERM)
         }
-    }
+    }*/
 
     private fun printLocation(location: Location) {
         if (location.latitude == 0.0000 && location.longitude == 0.0000) {
             initLocation()
         } else {
-            latText.text = location.latitude.toString()
-            longText.text = location.longitude.toString()
+            latText.text = ("Latitude : " + location.latitude.toString())
+            longText.text = ("Longitude : " + location.longitude.toString())
         }
     }
 
@@ -224,7 +222,7 @@ class PermActivity : AppCompatActivity(), LocationListener {
                 ).show()
             }
             READ_CONTACT_PERM -> if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                loadContacts()
+                //loadContacts()
             } else {
                 Toast.makeText(
                     this,
