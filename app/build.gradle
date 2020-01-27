@@ -33,13 +33,9 @@ dependencies {
     implementation 'androidx.annotation:annotation:1.0.2'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'com.google.code.gson:gson:2.8.1'
-    // Koin for Android
-    implementation "org.koin:koin-android:$koin_version"
-    // Koin Android Scope feature
-    implementation "org.koin:koin-android-scope:$koin_version"
-    // Koin Android ViewModel feature
-    implementation "org.koin:koin-android-viewmodel:$koin_version"
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.github.hajiyevelnur92:intentanimation:1.0'
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'

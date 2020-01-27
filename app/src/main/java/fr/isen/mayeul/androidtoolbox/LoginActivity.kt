@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_login.*
+import maes.tech.intentanim.CustomIntent
 
 class LoginActivity : AppCompatActivity() {
 
@@ -54,5 +55,6 @@ class LoginActivity : AppCompatActivity() {
 
     private fun newIntent(context: Context, c: Class<*>) {
         startActivity(Intent(context, c))
+        CustomIntent.customType(this, "fadein-to-fadeout")
     }
 }

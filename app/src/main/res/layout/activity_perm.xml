@@ -25,7 +25,7 @@
         android:layout_height="100dp"
         android:layout_marginStart="32dp"
         android:contentDescription="@string/select_img_desc"
-        app:layout_constraintBottom_toTopOf="@+id/contactView"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerContact"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/permTitle"
         app:srcCompat="@android:drawable/ic_menu_camera" />
@@ -46,12 +46,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="48dp"
         android:text="@string/long_text"
-        app:layout_constraintBottom_toTopOf="@+id/contactView"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerContact"
         app:layout_constraintStart_toEndOf="@+id/imgSelect"
         app:layout_constraintTop_toBottomOf="@id/latText" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/contactView"
+        android:id="@+id/recyclerContact"
         android:layout_width="0dp"
         android:layout_height="400dp"
         app:layout_constraintBottom_toBottomOf="parent"

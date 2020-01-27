@@ -1,15 +1,13 @@
 package fr.isen.mayeul.androidtoolbox
 
 import android.app.DatePickerDialog
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.activity_save.*
-import java.lang.Exception
 import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.util.*
 
 class SaveActivity : AppCompatActivity() {
