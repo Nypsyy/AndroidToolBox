@@ -3,6 +3,7 @@ package fr.isen.mayeul.androidtoolbox
 import android.app.DatePickerDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.activity_save.*
@@ -31,6 +32,7 @@ class SaveActivity : AppCompatActivity() {
         }
 
         val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+            birthDateText.text = ""
             calendar.set(Calendar.YEAR, year)
             calendar.set(Calendar.MONTH, month)
             calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
@@ -51,20 +53,22 @@ class SaveActivity : AppCompatActivity() {
 
     private fun updateDateInView() {
         val simpleDateFormat = SimpleDateFormat(format, Locale.FRANCE)
-        birthDateInput.text?.append(simpleDateFormat.format(calendar.time))
+        birthDateText.text = simpleDateFormat.format(calendar.time)
     }
 
     private fun onFormClick() {
         val userInfo: Triple<String, String, String> = Triple(
             lastNameInput.text.toString(),
             firstNameInput.text.toString(),
-            birthDateInput.text.toString()
+            birthDateText.text.toString()
         )
 
         try {
             jsonObject.addProperty("last_name", userInfo.first)
             jsonObject.addProperty("first_name", userInfo.second)
             jsonObject.addProperty("birth_date", userInfo.third)
+
+            Toast.makeText(this, "Enregistré !", Toast.LENGTH_LONG).show()
         } catch (e: Exception) {
         }
     }

@@ -33,6 +33,10 @@
     <string name="see_user_infos">Afficher</string>
     <string name="hint_last_name">Nom</string>
     <string name="hint_first_name">Prénom</string>
-    <string name="hint_birth_date">Date de naissance</string>
+    <string name="hint_birth_date">01/01/2001</string>
     <string name="date_picker">Sélection</string>
+    <string name="perm_title">Informations Android</string>
+    <string name="latt_text">Lattitude : </string>
+    <string name="long_text">Longitude : </string>
+    <string name="select_img_desc">Image Sélectionnée</string>
 </resources>

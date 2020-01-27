@@ -6,4 +6,56 @@
     android:layout_height="match_parent"
     tools:context=".PermActivity">
 
+    <TextView
+        android:id="@+id/permTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/perm_title"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imgSelect"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="32dp"
+        android:contentDescription="@string/select_img_desc"
+        app:layout_constraintBottom_toTopOf="@+id/contactView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/permTitle"
+        app:srcCompat="@android:drawable/ic_menu_camera" />
+
+    <TextView
+        android:id="@+id/latText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:text="@string/latt_text"
+        app:layout_constraintBottom_toTopOf="@id/longText"
+        app:layout_constraintStart_toEndOf="@+id/imgSelect"
+        app:layout_constraintTop_toBottomOf="@+id/permTitle" />
+
+    <TextView
+        android:id="@+id/longText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:text="@string/long_text"
+        app:layout_constraintBottom_toTopOf="@+id/contactView"
+        app:layout_constraintStart_toEndOf="@+id/imgSelect"
+        app:layout_constraintTop_toBottomOf="@id/latText" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/contactView"
+        android:layout_width="0dp"
+        android:layout_height="400dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
