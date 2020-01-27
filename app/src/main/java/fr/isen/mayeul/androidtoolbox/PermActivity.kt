@@ -6,45 +6,79 @@ import android.app.Service
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.location.Location
+import android.location.LocationListener
 import android.location.LocationManager
-import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.provider.Settings
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_perm.*
-import java.lang.Exception
-import java.util.jar.Manifest
 
-class PermActivity : AppCompatActivity() {
+class PermActivity : AppCompatActivity(), LocationListener {
 
     private val REQUEST_IMAGE_CAPTURE = 1
     private val REQUEST_LOAD_IMG = 2
-    private val PERMISSION_REQUEST_CAMERA = 10
-    private val PERMISSION_REQUEST_EXT_STORAGE = 20
-    private val PERMISSION_REQUEST_LOCATION = 30
+
+    private val LOCATION_PERM = 10
+    private val PICTURE_PERMISSIONS = 20
+
+    private val picPermissions = arrayOf(
+        android.Manifest.permission.CAMERA,
+        android.Manifest.permission.READ_EXTERNAL_STORAGE,
+        android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+    )
+
+    private var isGpsLocation = false
+    private var isNetworkLocation = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_perm)
 
-        checkPermissions()
-
-        val locationManager: LocationManager = getSystemService(Service.LOCATION_SERVICE) as LocationManager
-        val isGpsLocation = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-        val isNetworkLocation = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
-
-        if (!isGpsLocation && !isNetworkLocation) {
-            askLocation()
+        if (checkPermissions(android.Manifest.permission.ACCESS_FINE_LOCATION)) {
+            initLocation()
         } else {
-            getLocation()
+            requestPermissions(android.Manifest.permission.ACCESS_FINE_LOCATION, LOCATION_PERM)
         }
 
         imgSelect.setOnClickListener {
-            onImgClick()
+            if (checkPicturePermissions())
+                onImgClick()
+            else
+                requestPicPermissions()
+        }
+    }
+
+    private fun printLocation(location: Location) {
+        if (location.latitude == 0.0000 && location.longitude == 0.0000) {
+            initLocation()
+        } else {
+            latText.text = location.latitude.toString()
+            longText.text = location.longitude.toString()
+        }
+    }
+
+    private fun getLocation(lm: LocationManager) {
+        try {
+            if (isGpsLocation) {
+                lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000 * 60 * 1, 10.0f, this)
+                val loc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+                if (loc != null)
+                    printLocation(loc)
+            } else if (isNetworkLocation) {
+                lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000 * 60 * 1, 10.0f, this)
+                val loc = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+                if (loc != null)
+                    printLocation(loc)
+            } else {
+                Toast.makeText(this, "Localisation échouée", Toast.LENGTH_SHORT).show()
+            }
+        } catch (e: SecurityException) {
+            Toast.makeText(this, "Localisation échouée", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -61,8 +95,16 @@ class PermActivity : AppCompatActivity() {
         dialog.show()
     }
 
-    private fun getLocation() {
+    private fun initLocation() {
+        val locationManager: LocationManager = getSystemService(Service.LOCATION_SERVICE) as LocationManager
+        isGpsLocation = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+        isNetworkLocation = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
 
+        if (!isGpsLocation && !isNetworkLocation) {
+            askLocation()
+        } else {
+            getLocation(locationManager)
+        }
     }
 
     private fun onImgClick() {
@@ -117,49 +159,49 @@ class PermActivity : AppCompatActivity() {
         }
     }
 
-    private fun checkPermissions() {
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            if (!ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.CAMERA)) {
-                ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.CAMERA), PERMISSION_REQUEST_CAMERA)
-            }
-        }
-        // GALLERY permission
-        if (ContextCompat.checkSelfPermission(
-                this,
-                android.Manifest.permission.READ_EXTERNAL_STORAGE
-            ) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
-                this,
-                android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            if (!ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                ActivityCompat.requestPermissions(
-                    this,
-                    arrayOf(
-                        android.Manifest.permission.READ_EXTERNAL_STORAGE,
-                        android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-                    ),
-                    PERMISSION_REQUEST_EXT_STORAGE
-                )
-            }
-        }
+    private fun requestPermissions(perm: String, code: Int) {
+        ActivityCompat.requestPermissions(this, arrayOf(perm), code)
+    }
 
-        // LOCATION permission
-        if (ContextCompat.checkSelfPermission(
-                this,
-                android.Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            if (!ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.ACCESS_FINE_LOCATION)) {
-                ActivityCompat.requestPermissions(
-                    this,
-                    arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
-                    PERMISSION_REQUEST_LOCATION
-                )
-                getLocation()
+    private fun requestPicPermissions() {
+        ActivityCompat.requestPermissions(this, picPermissions, PICTURE_PERMISSIONS)
+    }
+
+    private fun checkPermissions(perm: String): Boolean {
+        val result = ContextCompat.checkSelfPermission(this, perm)
+        return result == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun checkPicturePermissions(): Boolean {
+        for (p in picPermissions) {
+            if (checkPermissions(p))
+                continue
+            else
+                return false
+        }
+        return true
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            LOCATION_PERM -> if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                initLocation()
             } else {
                 Toast.makeText(this, "Permission non accordée", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    override fun onLocationChanged(location: Location?) {
+    }
+
+    override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
+    }
+
+    override fun onProviderEnabled(provider: String?) {
+    }
+
+    override fun onProviderDisabled(provider: String?) {
     }
 }
