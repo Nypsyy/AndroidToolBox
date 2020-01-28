@@ -37,6 +37,10 @@ class HomeActivity : AppCompatActivity() {
         permButton.setOnClickListener {
             newIntent(this, PermActivity::class.java)
         }
+        // Web activity
+        webButton.setOnClickListener {
+            newIntent(this, WebActivity::class.java)
+        }
 
         // Fade transition
         CustomIntent.customType(this, "fadein-to-fadeout")

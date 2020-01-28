@@ -17,6 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".WebActivity"></activity>
         <activity android:name=".PermActivity" />
         <activity android:name=".SaveActivity" />
         <activity android:name=".lifecycle.LifeCycleActivity" />
