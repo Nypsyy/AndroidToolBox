@@ -72,14 +72,14 @@
         android:textColor="#FFFFFF"
         android:textColorHint="@color/colorPrimary"
         app:boxStrokeColor="@color/colorPrimary"
-        app:layout_constraintBottom_toTopOf="@+id/formButton"
+        app:layout_constraintBottom_toTopOf="@+id/saveJsonButton"
         app:layout_constraintEnd_toStartOf="@id/datePicker"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/firstNameLayout"
         app:passwordToggleTint="@color/colorPrimary" />
 
     <Button
-        android:id="@+id/seeButton"
+        android:id="@+id/displayButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="130dp"
@@ -88,10 +88,10 @@
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/formButton" />
+        app:layout_constraintStart_toEndOf="@id/saveJsonButton" />
 
     <Button
-        android:id="@+id/formButton"
+        android:id="@+id/saveJsonButton"
         android:layout_width="110dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="130dp"
@@ -99,7 +99,7 @@
         android:text="@string/save_user"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/seeButton"
+        app:layout_constraintEnd_toStartOf="@+id/displayButton"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
@@ -111,7 +111,7 @@
         android:textColor="#FFFFFF"
         android:textSize="12sp"
         android:textStyle="italic"
-        app:layout_constraintBottom_toTopOf="@+id/seeButton"
+        app:layout_constraintBottom_toTopOf="@+id/displayButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/birthDateText"
         app:layout_constraintTop_toBottomOf="@+id/firstNameLayout" />

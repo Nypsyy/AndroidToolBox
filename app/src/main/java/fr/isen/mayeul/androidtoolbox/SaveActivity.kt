@@ -2,62 +2,58 @@ package fr.isen.mayeul.androidtoolbox
 
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.activity_save.*
 import maes.tech.intentanim.CustomIntent
+import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
 
+// Save page
 class SaveActivity : AppCompatActivity() {
 
-    private var jsonObject: JsonObject = JsonObject()
+    // Date picker
+    private lateinit var dateSetListener: DatePickerDialog.OnDateSetListener
+    // JSON file
+    private var jsonObject: JSONObject = JSONObject("user")
+    // Calendar for date picker
     private var calendar = Calendar.getInstance()
+    // Date picker format
     private val format = "dd/MM/yyyy"
+    // User's age
     private var age = 0
+
+    // Page buttons
+    private val pageButtons = arrayListOf<View>(saveJsonButton, displayButton, datePicker)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_save)
 
-        formButton.setOnClickListener {
-            onFormClick()
+        // Date picker config
+        initDatePicker()
+
+        // Listeners
+        pageButtons.forEach { b ->
+            b.setOnClickListener {
+                when (it) {
+                    saveJsonButton -> onFormClick() // Save in JSON file
+                    displayButton -> onSeeClick() // See JSON file in dialog
+                    datePicker -> onDatePickerClick() // Select a date
+                }
+            }
         }
 
-        seeButton.setOnClickListener {
-            onSeeClick()
-        }
-
-        val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
-            birthDateText.text = ""
-            calendar.set(Calendar.YEAR, year)
-            calendar.set(Calendar.MONTH, month)
-            calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-            updateDateInView()
-            age = getAge(year, month, dayOfMonth)
-        }
-
-        datePicker.setOnClickListener {
-            DatePickerDialog(
-                this,
-                dateSetListener,
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)
-            ).show()
-        }
-
+        // Fade transition
         CustomIntent.customType(this, "fadein-to-fadeout")
     }
 
-    private fun updateDateInView() {
-        val simpleDateFormat = SimpleDateFormat(format, Locale.FRANCE)
-        birthDateText.text = simpleDateFormat.format(calendar.time)
-    }
-
+    // Save JSON file event
     private fun onFormClick() {
+        // User info
         val userInfo: Triple<String, String, String> = Triple(
             lastNameInput.text.toString(),
             firstNameInput.text.toString(),
@@ -65,41 +61,83 @@ class SaveActivity : AppCompatActivity() {
         )
 
         try {
-            jsonObject.addProperty("last_name", userInfo.first)
-            jsonObject.addProperty("first_name", userInfo.second)
-            jsonObject.addProperty("birth_date", userInfo.third)
+            // Add in a JSON file all the info
+            jsonObject.put("last_name", userInfo.first)
+            jsonObject.put("first_name", userInfo.second)
+            jsonObject.put("birth_date", userInfo.third)
+
+            println(jsonObject)
 
             Toast.makeText(this, "Enregistré !", Toast.LENGTH_LONG).show()
         } catch (e: Exception) {
+            Toast.makeText(this, "Veuillez remplir les informations ci-dessus", Toast.LENGTH_SHORT).show()
         }
     }
 
+    // Show button event
     private fun onSeeClick() {
         try {
             val dialog = AlertDialog.Builder(this)
 
+            // Dialog set up
             dialog.setTitle("Info utilisateur")
-            dialog.setMessage(
-                "Nom : " + jsonObject.get("last_name").asString +
-                        "\nPrénom : " + jsonObject.get("first_name").asString +
-                        "\nDate de naissance : " + jsonObject.get("birth_date").asString +
-                        "\nAge : $age"
-            )
+            dialog.setMessage("Nom : " + jsonObject.getString("last_name"))
+            dialog.setMessage("Prénom : " + jsonObject.getString("first_name"))
+            dialog.setMessage("Date de naissance : " + jsonObject.getString("birth_date"))
+            dialog.setMessage("Age : $age")
+            // Dialog show
             dialog.create().show()
         } catch (e: Exception) {
+            Toast.makeText(this, "Erreur : n'a pas pu lire le fichier utilisateur", Toast.LENGTH_LONG).show()
         }
     }
 
+    // Date picker click event
+    private fun onDatePickerClick() {
+        DatePickerDialog(
+            this,
+            dateSetListener,
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH),
+            calendar.get(Calendar.DAY_OF_MONTH)
+        ).show()
+    }
+
+    // Calculates age based on birth date picked
     private fun getAge(year: Int, month: Int, day: Int): Int {
         val today = Calendar.getInstance()
         val birth = Calendar.getInstance()
 
         birth[year, month] = day
 
+        // Year calculation
         var age = today[Calendar.YEAR] - birth[Calendar.YEAR]
+        // If we've not passed his birth day
         if (today[Calendar.DAY_OF_YEAR] < birth[Calendar.DAY_OF_YEAR])
             age--
 
+        // Add in JSON file
+        jsonObject.put("age", age)
+
         return age
+    }
+
+    // Update the date text input
+    private fun updateDateInView() {
+        val simpleDateFormat = SimpleDateFormat(format, Locale.FRANCE)
+        birthDateText.text = simpleDateFormat.format(calendar.time)
+    }
+
+    // Date picker init
+    private fun initDatePicker() {
+        dateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+            birthDateText.text = "" // Birth date input reset
+            calendar.set(Calendar.YEAR, year)
+            calendar.set(Calendar.MONTH, month)
+            calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+            updateDateInView()
+            // Age calculator
+            age = getAge(year, month, dayOfMonth)
+        }
     }
 }
