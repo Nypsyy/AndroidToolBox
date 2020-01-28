@@ -16,45 +16,30 @@ class HomeActivity : AppCompatActivity() {
     // Preference name
     private val prefName: String = "Shared Preferences"
 
-    // Buttons on the page (array)
-    private val pageButtons = arrayListOf<View>()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        pageButtons.add(disconnectButton)
-        pageButtons.add(lifeCycleButton)
-        pageButtons.add(saveButton)
-        pageButtons.add(disconnectButton)
-
         // Listeners
-        for (button in pageButtons) {
-            when (button) {
-                disconnectButton -> button.setOnClickListener { onClickDisconnectButton() } // Login page
-                lifeCycleButton -> button.setOnClickListener { onClickLifeCycleButton() } // Life cycle page
-                saveButton -> button.setOnClickListener { onClickSaveButton() } // Save page
-                permButton -> button.setOnClickListener { onClickPermButton() } // Permissions page
-            }
+        // Disconnect button
+        disconnectButton.setOnClickListener {
+            onClickDisconnectButton()
+        }
+        // Life cycle button
+        lifeCycleButton.setOnClickListener {
+            newIntent(this, LifeCycleActivity::class.java)
+        }
+        // Save activity
+        saveButton.setOnClickListener {
+            newIntent(this, SaveActivity::class.java)
+        }
+        // Permission activity
+        permButton.setOnClickListener {
+            newIntent(this, PermActivity::class.java)
         }
 
         // Fade transition
         CustomIntent.customType(this, "fadein-to-fadeout")
-    }
-
-    // Life cycle button event
-    private fun onClickLifeCycleButton() {
-        newIntent(this, LifeCycleActivity::class.java) // Life cycle activity
-    }
-
-    // Save button event
-    private fun onClickSaveButton() {
-        newIntent(this, SaveActivity::class.java) // Save activity
-    }
-
-    // Permissions button event
-    private fun onClickPermButton() {
-        newIntent(this, PermActivity::class.java) // Perm activity
     }
 
     // Logout button event

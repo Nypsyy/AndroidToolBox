@@ -11,34 +11,32 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
+import android.provider.ContactsContract
 import android.provider.MediaStore
 import android.provider.Settings
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import fr.isen.mayeul.androidtoolbox.recyclerview.ContactAdapter
+import fr.isen.mayeul.androidtoolbox.utils.PermissionManager
 import kotlinx.android.synthetic.main.activity_perm.*
 import maes.tech.intentanim.CustomIntent
 
 class PermActivity : AppCompatActivity(), LocationListener {
 
-    // Request codes
-    private val REQUEST_IMAGE_CAPTURE = 1
-    private val REQUEST_LOAD_IMG = 2
-
-    // Permission codes
-    private val LOCATION_PERM = 10
-    private val PICTURE_PERMS = 20
-    private val READ_CONTACT_PERM = 30
+    // To use permission methods
+    private val permManager = PermissionManager(this)
 
     // Permission codes for picture feature
-    private val picPermissions = arrayOf(
+    private val picturePermissions = arrayOf(
         Manifest.permission.CAMERA,
         Manifest.permission.READ_EXTERNAL_STORAGE,
         Manifest.permission.WRITE_EXTERNAL_STORAGE
     )
 
-    // Vars for location providers
+    // Location providers
     private var isGpsLocation = false
     private var isNetworkLocation = false
 
@@ -46,43 +44,96 @@ class PermActivity : AppCompatActivity(), LocationListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_perm)
 
+        // Init location + contacts
         initLocation()
+        initContacts()
 
-        //loadContacts()
-
+        // Listeners
+        // Picture click
         imgSelect.setOnClickListener {
-            if (checkPicturePermissions())
-                onImgClick()
-            else
-                requestPicPermissions()
+            onImgClick()
         }
 
+        // Fade transition
         CustomIntent.customType(this, "fadein-to-fadeout")
     }
 
-    private fun requestAPermission(perm: String, code: Int) {
-        ActivityCompat.requestPermissions(this, arrayOf(perm), code)
+    // Config contact feature
+    private fun initContacts() {
+        // Check contact read permission
+        if (permManager.isPermissionOk(Manifest.permission.READ_CONTACTS)) {
+            displayContacts()
+        } else {
+            // Ask the permission
+            permManager.requestAPermission(this, Manifest.permission.READ_CONTACTS, READ_CONTACT_PERMISSION)
+        }
     }
 
-    private fun checkPermissions(perm: String): Boolean {
-        val result = ContextCompat.checkSelfPermission(this, perm)
-        return result == PackageManager.PERMISSION_GRANTED
+    // Display the contact located in the phone
+    private fun displayContacts() {
+        val contacts = loadContacts() // Get the contacts
+
+        // Initialize the recycler
+        recyclerContact.apply {
+            layoutManager = LinearLayoutManager(this@PermActivity)
+            adapter = ContactAdapter(contacts)
+        }
     }
 
-    private fun requestPicPermissions() {
-        ActivityCompat.requestPermissions(this, picPermissions, PICTURE_PERMS)
+    // Get the phone's contacts
+    private fun loadContacts(): ArrayList<Contact> {
+        val contactList = arrayListOf<Contact>()
+
+        // Initialize cursor
+        val phoneCursor = contentResolver.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null)
+
+        // Cursor iteration
+        phoneCursor?.let { cursor ->
+            while (cursor.moveToNext()) {
+                // Contact ID
+                val id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID))
+                // Contact name
+                val name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
+                // Contact number(s)
+                val phoneNumber = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)).toInt()
+
+                // If there is(are) number(s)
+                if (phoneNumber > 0) {
+                    // New cursor on phone numbers
+                    val numberCursor = contentResolver.query(
+                        ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                        null,
+                        ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=?",
+                        arrayOf(id),
+                        null
+                    )
+
+                    numberCursor?.let { numCursor ->
+                        while (numCursor.moveToNext()) {
+                            // Contact number
+                            val phoneNumValue =
+                                numCursor.getString(numCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
+                            contactList.add(Contact(name, phoneNumValue))
+                        }
+                        numCursor.close()
+                    }
+                }
+            }
+            cursor.close()
+        }
+        return contactList
     }
 
+    // Launch new activity (action = Gallery)
     private fun getGallery() {
-        Intent(
-            Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-        ).also { getImageIntent ->
+        Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI).also { getImageIntent ->
             getImageIntent.resolveActivity(packageManager)?.also {
                 startActivityForResult(getImageIntent, REQUEST_LOAD_IMG)
             }
         }
     }
 
+    // Launch new activity (action = CAMERA)
     private fun takePhoto() {
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
             takePictureIntent.resolveActivity(packageManager)?.also {
@@ -91,43 +142,27 @@ class PermActivity : AppCompatActivity(), LocationListener {
         }
     }
 
+    // On picture button event
     private fun onImgClick() {
-        val dialog = AlertDialog.Builder(this)
+        // Check all picture permissions
+        if (permManager.arePermissionsOk(picturePermissions)) {
+            val dialog = AlertDialog.Builder(this)
 
-        dialog.setTitle("Changer d'image")
-        dialog.setPositiveButton("Prendre une photo") { _, _ -> takePhoto() }
-        dialog.setNegativeButton("Récupérer dans la gallerie") { _, _ -> getGallery() }
+            // New dialog ==> asks to take or get a photo
+            dialog.setTitle("Changer d'image")
+            dialog.setPositiveButton("Prendre une photo") { _, _ -> takePhoto() }
+            dialog.setNegativeButton("Récupérer dans la gallerie") { _, _ -> getGallery() }
 
-        dialog.show()
-    }
-
-    private fun checkPicturePermissions(): Boolean {
-        for (p in picPermissions) {
-            if (checkPermissions(p))
-                continue
-            else
-                return false
-        }
-        return true
-    }
-
-    /*private fun getContacts(): ArrayList<String> {
-        val contacts: ArrayList<String> = ArrayList()
-
-        return contacts
-    }*/
-
-    /*private fun loadContacts() {
-        val contacts: ArrayList<String>
-        if (checkPermissions(Manifest.permission.READ_CONTACTS)) {
-            contacts = getContacts()
-            listContacts.text = contacts.toString()
+            dialog.show()
         } else {
-            requestAPermission(Manifest.permission.READ_CONTACTS, READ_CONTACT_PERM)
+            // Ask the permission
+            permManager.requestMultiplePermissions(this, picturePermissions, PICTURE_PERMISSIONS)
         }
-    }*/
+    }
 
+    // Display the location on the page
     private fun printLocation(location: Location) {
+        // If it couldn't get the coordinates, try again
         if (location.latitude == 0.0000 && location.longitude == 0.0000) {
             initLocation()
         } else {
@@ -136,14 +171,19 @@ class PermActivity : AppCompatActivity(), LocationListener {
         }
     }
 
+    // Determine the location provider
     private fun getLocation(lm: LocationManager) {
         try {
+            // If GPS is available
             if (isGpsLocation) {
+                // Update location
                 lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000 * 60 * 1, 10.0f, this)
                 val loc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER)
                 if (loc != null)
                     printLocation(loc)
-            } else if (isNetworkLocation) {
+            } // if NETWORK is available
+            else if (isNetworkLocation) {
+                // Update location
                 lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000 * 60 * 1, 10.0f, this)
                 val loc = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
                 if (loc != null)
@@ -156,10 +196,11 @@ class PermActivity : AppCompatActivity(), LocationListener {
         }
     }
 
-    private fun askLocationPermission() {
+    // Ask to enable location settings
+    private fun askLocationSettings() {
         val dialog = AlertDialog.Builder(this)
 
-        dialog.setTitle("Localisation pas activée")
+        dialog.setTitle("Localisation désactivée")
         dialog.setMessage("Voulez-vous l'activer ?")
         dialog.setPositiveButton("Oui") { _, _ ->
             Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS).also {
@@ -169,41 +210,44 @@ class PermActivity : AppCompatActivity(), LocationListener {
         dialog.show()
     }
 
+    // Initialize location features
     private fun initLocation() {
-        if (checkPermissions(Manifest.permission.ACCESS_FINE_LOCATION)) {
+        // Check the location permission
+        if (permManager.isPermissionOk(Manifest.permission.ACCESS_FINE_LOCATION)) {
             val locationManager: LocationManager = getSystemService(Service.LOCATION_SERVICE) as LocationManager
+
+            // Determine the available providers
             isGpsLocation = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
             isNetworkLocation = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
 
+            // If none
             if (!isGpsLocation && !isNetworkLocation) {
-                askLocationPermission()
+                askLocationSettings()
             } else {
                 getLocation(locationManager)
             }
         } else {
-            requestAPermission(Manifest.permission.ACCESS_FINE_LOCATION, LOCATION_PERM)
+            // Ask the location permission
+            permManager.requestAPermission(this, Manifest.permission.ACCESS_FINE_LOCATION, LOCATION_PERMISSION)
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
+        // Image change from camera
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
             val imageBitmap = data?.extras?.get("data") as Bitmap
             imgSelect.setImageBitmap(imageBitmap)
-        } else if (requestCode == REQUEST_LOAD_IMG && resultCode == Activity.RESULT_OK) {
+        } // Image change from gallery
+        else if (requestCode == REQUEST_LOAD_IMG && resultCode == Activity.RESULT_OK) {
             if (data != null) {
                 val selectedImage = data.data
                 try {
-                    val bitmap =
-                        MediaStore.Images.Media.getBitmap(this.contentResolver, selectedImage)
+                    val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, selectedImage)
                     imgSelect.setImageBitmap(bitmap)
                 } catch (e: Exception) {
-                    Toast.makeText(
-                        this,
-                        "N'a pas pu récupérer l'image de la gallerie",
-                        Toast.LENGTH_LONG
-                    ).show()
+                    Toast.makeText(this, "N'a pas pu récupérer l'image de la galerie", Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -211,27 +255,35 @@ class PermActivity : AppCompatActivity(), LocationListener {
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        // All permissions asked
         when (requestCode) {
-            LOCATION_PERM -> if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            PICTURE_PERMISSIONS -> if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                onImgClick()
+            } else {
+                Toast.makeText(this, "Accès aux photos + caméra non accordée", Toast.LENGTH_LONG).show()
+            }
+            LOCATION_PERMISSION -> if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 initLocation()
             } else {
-                Toast.makeText(
-                    this,
-                    "La permission doit être accordée dans le but de récupérer les coordonnées de votre téléphone",
-                    Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(this, "Localisation non accordée", Toast.LENGTH_SHORT).show()
             }
-            READ_CONTACT_PERM -> if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                //loadContacts()
+            READ_CONTACT_PERMISSION -> if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                loadContacts()
             } else {
-                Toast.makeText(
-                    this,
-                    "La permission doit être accordée dans le but de récupérer votre journal de contacts",
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
+                Toast.makeText(this, "Récupération des contacts non accordée", Toast.LENGTH_LONG).show()
             }
         }
+    }
+
+    companion object {
+        // Request codes for image changes
+        private const val REQUEST_IMAGE_CAPTURE = 11
+        private const val REQUEST_LOAD_IMG = 22
+
+        // Permission codes for features
+        private const val LOCATION_PERMISSION = 10
+        private const val PICTURE_PERMISSIONS = 20
+        private const val READ_CONTACT_PERMISSION = 30
     }
 
     override fun onLocationChanged(location: Location?) {}

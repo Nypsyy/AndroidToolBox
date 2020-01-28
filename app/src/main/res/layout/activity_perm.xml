@@ -58,6 +58,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/latText" />
 
+    <ImageView
+        android:id="@+id/phoneImg"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:contentDescription="@string/phoneDesc"
+        app:layout_constraintBottom_toBottomOf="@+id/permTitle"
+        app:layout_constraintEnd_toStartOf="@+id/permTitle"
+        app:layout_constraintTop_toTopOf="@+id/permTitle"
+        app:srcCompat="@android:drawable/stat_sys_speakerphone" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerContact"
         android:layout_width="0dp"
@@ -66,14 +76,4 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:contentDescription="@string/phoneDesc"
-        app:layout_constraintBottom_toBottomOf="@+id/permTitle"
-        app:layout_constraintEnd_toStartOf="@+id/permTitle"
-        app:layout_constraintTop_toTopOf="@+id/permTitle"
-        app:srcCompat="@android:drawable/stat_sys_speakerphone" />
 </androidx.constraintlayout.widget.ConstraintLayout>

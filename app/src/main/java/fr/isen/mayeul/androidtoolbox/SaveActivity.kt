@@ -2,7 +2,6 @@ package fr.isen.mayeul.androidtoolbox
 
 import android.app.DatePickerDialog
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -18,16 +17,11 @@ class SaveActivity : AppCompatActivity() {
     // Date picker
     private lateinit var dateSetListener: DatePickerDialog.OnDateSetListener
     // JSON file
-    private var jsonObject: JSONObject = JSONObject("user")
+    private var jsonObject: JSONObject = JSONObject()
     // Calendar for date picker
     private var calendar = Calendar.getInstance()
     // Date picker format
     private val format = "dd/MM/yyyy"
-    // User's age
-    private var age = 0
-
-    // Page buttons
-    private val pageButtons = arrayListOf<View>(saveJsonButton, displayButton, datePicker)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,14 +31,17 @@ class SaveActivity : AppCompatActivity() {
         initDatePicker()
 
         // Listeners
-        pageButtons.forEach { b ->
-            b.setOnClickListener {
-                when (it) {
-                    saveJsonButton -> onFormClick() // Save in JSON file
-                    displayButton -> onSeeClick() // See JSON file in dialog
-                    datePicker -> onDatePickerClick() // Select a date
-                }
-            }
+        // Save button
+        saveJsonButton.setOnClickListener {
+            onSaveClick()
+        }
+        // Display button
+        displayButton.setOnClickListener {
+            onDisplayClick()
+        }
+        // Date picker button
+        datePicker.setOnClickListener {
+            onDatePickerClick()
         }
 
         // Fade transition
@@ -52,7 +49,7 @@ class SaveActivity : AppCompatActivity() {
     }
 
     // Save JSON file event
-    private fun onFormClick() {
+    private fun onSaveClick() {
         // User info
         val userInfo: Triple<String, String, String> = Triple(
             lastNameInput.text.toString(),
@@ -75,16 +72,18 @@ class SaveActivity : AppCompatActivity() {
     }
 
     // Show button event
-    private fun onSeeClick() {
+    private fun onDisplayClick() {
         try {
             val dialog = AlertDialog.Builder(this)
 
             // Dialog set up
             dialog.setTitle("Info utilisateur")
-            dialog.setMessage("Nom : " + jsonObject.getString("last_name"))
-            dialog.setMessage("Prénom : " + jsonObject.getString("first_name"))
-            dialog.setMessage("Date de naissance : " + jsonObject.getString("birth_date"))
-            dialog.setMessage("Age : $age")
+            dialog.setMessage(
+                "Nom : " + jsonObject.getString("last_name")
+                        + "\nPrénom : " + jsonObject.getString("first_name")
+                        + "\nDate de naissance : " + jsonObject.getString("birth_date")
+                        + "\nAge : " + jsonObject.getString("age")
+            )
             // Dialog show
             dialog.create().show()
         } catch (e: Exception) {
@@ -104,22 +103,21 @@ class SaveActivity : AppCompatActivity() {
     }
 
     // Calculates age based on birth date picked
-    private fun getAge(year: Int, month: Int, day: Int): Int {
+    private fun getAge(year: Int, month: Int, day: Int) {
+        var age: Int
         val today = Calendar.getInstance()
         val birth = Calendar.getInstance()
 
         birth[year, month] = day
 
         // Year calculation
-        var age = today[Calendar.YEAR] - birth[Calendar.YEAR]
+        age = today[Calendar.YEAR] - birth[Calendar.YEAR]
         // If we've not passed his birth day
         if (today[Calendar.DAY_OF_YEAR] < birth[Calendar.DAY_OF_YEAR])
             age--
 
         // Add in JSON file
         jsonObject.put("age", age)
-
-        return age
     }
 
     // Update the date text input
@@ -137,7 +135,7 @@ class SaveActivity : AppCompatActivity() {
             calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
             updateDateInView()
             // Age calculator
-            age = getAge(year, month, dayOfMonth)
+            getAge(year, month, dayOfMonth)
         }
     }
 }
