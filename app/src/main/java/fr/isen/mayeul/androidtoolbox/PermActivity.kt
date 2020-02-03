@@ -14,10 +14,8 @@ import android.os.Bundle
 import android.provider.ContactsContract
 import android.provider.MediaStore
 import android.provider.Settings
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import fr.isen.mayeul.androidtoolbox.recyclerview.ContactAdapter
 import fr.isen.mayeul.androidtoolbox.utils.PermissionManager
@@ -36,6 +34,12 @@ class PermActivity : AppCompatActivity(), LocationListener {
         Manifest.permission.WRITE_EXTERNAL_STORAGE
     )
 
+    // Permission codes for Location and Contact read
+    private val locContactPermissions = arrayOf(
+        Manifest.permission.READ_CONTACTS,
+        Manifest.permission.ACCESS_FINE_LOCATION
+    )
+
     // Location providers
     private var isGpsLocation = false
     private var isNetworkLocation = false
@@ -44,9 +48,8 @@ class PermActivity : AppCompatActivity(), LocationListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_perm)
 
-        // Init location + contacts
-        initLocation()
-        initContacts()
+        // Init
+        init()
 
         // Listeners
         // Picture click
@@ -58,14 +61,13 @@ class PermActivity : AppCompatActivity(), LocationListener {
         CustomIntent.customType(this, "fadein-to-fadeout")
     }
 
-    // Config contact feature
-    private fun initContacts() {
-        // Check contact read permission
-        if (permManager.isPermissionOk(Manifest.permission.READ_CONTACTS)) {
+    // Init location and contacts by asking permissions
+    private fun init() {
+        if (permManager.arePermissionsOk(locContactPermissions)) {
+            initLocation()
             displayContacts()
         } else {
-            // Ask the permission
-            permManager.requestAPermission(this, Manifest.permission.READ_CONTACTS, READ_CONTACT_PERMISSION)
+            permManager.requestMultiplePermissions(this, locContactPermissions, LOC_CONTACT_PERMISSION)
         }
     }
 
@@ -212,23 +214,17 @@ class PermActivity : AppCompatActivity(), LocationListener {
 
     // Initialize location features
     private fun initLocation() {
-        // Check the location permission
-        if (permManager.isPermissionOk(Manifest.permission.ACCESS_FINE_LOCATION)) {
-            val locationManager: LocationManager = getSystemService(Service.LOCATION_SERVICE) as LocationManager
+        val locationManager: LocationManager = getSystemService(Service.LOCATION_SERVICE) as LocationManager
 
-            // Determine the available providers
-            isGpsLocation = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-            isNetworkLocation = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+        // Determine the available providers
+        isGpsLocation = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+        isNetworkLocation = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
 
-            // If none
-            if (!isGpsLocation && !isNetworkLocation) {
-                askLocationSettings()
-            } else {
-                getLocation(locationManager)
-            }
+        // If none
+        if (!isGpsLocation && !isNetworkLocation) {
+            askLocationSettings()
         } else {
-            // Ask the location permission
-            permManager.requestAPermission(this, Manifest.permission.ACCESS_FINE_LOCATION, LOCATION_PERMISSION)
+            getLocation(locationManager)
         }
     }
 
@@ -257,20 +253,17 @@ class PermActivity : AppCompatActivity(), LocationListener {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         // All permissions asked
         when (requestCode) {
+            // Camera and file access
             PICTURE_PERMISSIONS -> if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 onImgClick()
             } else {
                 Toast.makeText(this, "Accès aux photos + caméra non accordée", Toast.LENGTH_LONG).show()
             }
-            LOCATION_PERMISSION -> if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                initLocation()
+            // Location and contacts
+            LOC_CONTACT_PERMISSION -> if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                init()
             } else {
                 Toast.makeText(this, "Localisation non accordée", Toast.LENGTH_SHORT).show()
-            }
-            READ_CONTACT_PERMISSION -> if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                loadContacts()
-            } else {
-                Toast.makeText(this, "Récupération des contacts non accordée", Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -281,9 +274,8 @@ class PermActivity : AppCompatActivity(), LocationListener {
         private const val REQUEST_LOAD_IMG = 22
 
         // Permission codes for features
-        private const val LOCATION_PERMISSION = 10
+        private const val LOC_CONTACT_PERMISSION = 10
         private const val PICTURE_PERMISSIONS = 20
-        private const val READ_CONTACT_PERMISSION = 30
     }
 
     override fun onLocationChanged(location: Location?) {}

@@ -65,4 +65,10 @@ class HomeActivity : AppCompatActivity() {
     private fun newIntent(context: Context, c: Class<*>) {
         startActivity(Intent(context, c))
     }
+
+    // Resume fade transition
+    override fun onResume() {
+        super.onResume()
+        CustomIntent.customType(this, "fadein-to-fadeout")
+    }
 }
