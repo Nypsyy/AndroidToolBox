@@ -1,4 +1,4 @@
-package fr.isen.mayeul.androidtoolbox.recyclerview
+package fr.isen.mayeul.androidtoolbox.recyclerview.contact
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView

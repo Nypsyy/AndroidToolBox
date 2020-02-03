@@ -44,4 +44,8 @@
     <string name="test_item">Test</string>
     <string name="call_img">Phone call</string>
     <string name="random_profile_pic">Random image</string>
+    <string name="change_fragment_button">Fragment swap</string>
+    <string name="fragment_one_text">Je suis le fragment 1 (ง ͠° ͟ل͜ ͡°)ง</string>
+    <string name="fragment_two_text">Et moi le fragment 2 (▀̿Ĺ̯▀̿ ̿)</string>
+    <string name="web_service_img">Download arrow</string>
 </resources>

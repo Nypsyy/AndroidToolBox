@@ -21,7 +21,7 @@
         <activity android:name=".WebActivity" />
         <activity android:name=".PermActivity" />
         <activity android:name=".SaveActivity" />
-        <activity android:name=".lifecycle.LifeCycleActivity" />
+        <activity android:name=".LifeCycleActivity" />
         <activity android:name=".HomeActivity" />
         <activity android:name=".LoginActivity">
             <intent-filter>

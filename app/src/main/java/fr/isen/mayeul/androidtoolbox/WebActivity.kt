@@ -10,11 +10,9 @@ import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.*
 import com.google.gson.Gson
-import com.squareup.picasso.Picasso
 import fr.isen.mayeul.androidtoolbox.randomuser.RandomUser
-import fr.isen.mayeul.androidtoolbox.recyclerview.RandomUserAdapter
+import fr.isen.mayeul.androidtoolbox.recyclerview.randomuser.RandomUserAdapter
 import fr.isen.mayeul.androidtoolbox.utils.PermissionManager
-import kotlinx.android.synthetic.main.activity_random_user_item.*
 import kotlinx.android.synthetic.main.activity_web.*
 import maes.tech.intentanim.CustomIntent
 
@@ -60,7 +58,8 @@ class WebActivity : AppCompatActivity() {
             }
 
             // Update display
-            recyclerRandomUsers.adapter = RandomUserAdapter(randomUsers)
+            recyclerRandomUsers.adapter =
+                RandomUserAdapter(randomUsers)
         }, Response.ErrorListener { e ->
             println("ERROR : $e")
             Toast.makeText(this, "N'a pas pu récupérer les résultats", Toast.LENGTH_SHORT).show()

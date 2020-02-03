@@ -17,7 +17,7 @@ import android.provider.Settings
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import fr.isen.mayeul.androidtoolbox.recyclerview.ContactAdapter
+import fr.isen.mayeul.androidtoolbox.recyclerview.contact.ContactAdapter
 import fr.isen.mayeul.androidtoolbox.utils.PermissionManager
 import kotlinx.android.synthetic.main.activity_perm.*
 import maes.tech.intentanim.CustomIntent
