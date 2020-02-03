@@ -7,17 +7,15 @@
     android:background="@drawable/cosmic"
     tools:context=".LifeCycleActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/fragmentLayout"
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/pagerLayout"
         android:layout_width="300dp"
         android:layout_height="300dp"
-        app:layout_constraintBottom_toTopOf="@+id/buttonFragment"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chatIcon">
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        app:layout_constraintTop_toBottomOf="@+id/chatImg" />
 
     <Button
         android:id="@+id/buttonFragment"
@@ -31,7 +29,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragmentLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <TextView
         android:id="@+id/lifeCycleState"
@@ -39,21 +37,38 @@
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toTopOf="@+id/fragmentLayout"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/pagerLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chatIcon" />
+        app:layout_constraintTop_toBottomOf="@+id/chatImg" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/swipe_info"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toTopOf="@+id/buttonFragment"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pagerLayout" />
 
     <ImageView
-        android:id="@+id/chatIcon"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:id="@+id/chatImg"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:contentDescription="@string/chatDesc"
-        app:layout_constraintBottom_toTopOf="@+id/fragmentLayout"
+        android:src="@android:drawable/stat_notify_chat"
+        app:layout_constraintBottom_toTopOf="@+id/pagerLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/stat_notify_chat" />
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

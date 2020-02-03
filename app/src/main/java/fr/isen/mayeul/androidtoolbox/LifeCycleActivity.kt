@@ -1,21 +1,22 @@
 package fr.isen.mayeul.androidtoolbox
 
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentStatePagerAdapter
 import fr.isen.mayeul.androidtoolbox.lifecycle.LifeCycleFragmentOne
 import fr.isen.mayeul.androidtoolbox.lifecycle.LifeCycleFragmentTwo
 import kotlinx.android.synthetic.main.activity_life_cycle.*
 import maes.tech.intentanim.CustomIntent
 
 // LifeCycle page
-class LifeCycleActivity : AppCompatActivity(), LifeCycleFragmentOne.OnFragmentInteractionListener,
+class LifeCycleActivity : FragmentActivity(), LifeCycleFragmentOne.OnFragmentInteractionListener,
     LifeCycleFragmentTwo.OnFragmentInteractionListener {
 
-    // For fragment swap
-    private var isFragmentOneVisible: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,29 +25,11 @@ class LifeCycleActivity : AppCompatActivity(), LifeCycleFragmentOne.OnFragmentIn
         // Notification
         notification("onCreate", true)
 
-        // Set up first fragment display
-        supportFragmentManager.beginTransaction().add(R.id.fragmentLayout, LifeCycleFragmentOne()).commit()
-        // First fragment is displayed
-        isFragmentOneVisible = true
-
-        buttonFragment.setOnClickListener {
-            changeFragmentDisplay()
-        }
+        // Pager adapter
+        pagerLayout.adapter = ScreenSlidePagerAdapter(supportFragmentManager)
 
         // Fade transition
         CustomIntent.customType(this, "fadein-to-fadeout")
-    }
-
-    // Change fragment display
-    private fun changeFragmentDisplay() {
-        // Check which fragment is displayed
-        if (isFragmentOneVisible) {
-            supportFragmentManager.beginTransaction().replace(R.id.fragmentLayout, LifeCycleFragmentTwo()).commit()
-        } else {
-            supportFragmentManager.beginTransaction().replace(R.id.fragmentLayout, LifeCycleFragmentOne()).commit()
-        }
-        // Update boolean
-        isFragmentOneVisible = !isFragmentOneVisible
     }
 
     // Set a notification message on the life cycle screen
@@ -77,5 +60,30 @@ class LifeCycleActivity : AppCompatActivity(), LifeCycleFragmentOne.OnFragmentIn
         Toast.makeText(this, "Activité détruite", Toast.LENGTH_LONG).show()
     }
 
+    // When the back button is pressed
+    override fun onBackPressed() {
+        // If we display the first fragment
+        if (pagerLayout.currentItem == 0) {
+            super.onBackPressed()
+        } else {
+            pagerLayout.currentItem--
+        }
+    }
+
     override fun onFragmentInteraction(uri: Uri) {}
+
+    private inner class ScreenSlidePagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
+        override fun getCount(): Int = NUM_FRAGMENT
+
+        override fun getItem(position: Int): Fragment {
+            if (position != 0)
+                return LifeCycleFragmentTwo()
+            return LifeCycleFragmentOne()
+        }
+    }
+
+    companion object {
+        private const val NUM_FRAGMENT: Int = 2
+    }
+
 }

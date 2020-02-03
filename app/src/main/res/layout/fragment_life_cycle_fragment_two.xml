@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="150dp"
     tools:context=".lifecycle.LifeCycleFragmentTwo">
-
-    <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:background="#00FFFFFF"
         android:text="@string/fragment_two_text"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
-        android:textSize="30sp"
+        android:textSize="25sp"
         android:textStyle="bold" />
 
-</FrameLayout>
+
+
+</ScrollView>
