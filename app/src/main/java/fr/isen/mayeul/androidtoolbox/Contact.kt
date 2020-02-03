@@ -1,3 +1,6 @@
 package fr.isen.mayeul.androidtoolbox
 
-class Contact(var name: String, var number: String)
+data class Contact(
+    val name: String,
+    val number: String
+)

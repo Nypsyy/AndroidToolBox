@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import fr.isen.mayeul.androidtoolbox.R
-import fr.isen.mayeul.androidtoolbox.RandomUser
+import fr.isen.mayeul.androidtoolbox.randomuser.RandomUser
 
 class RandomUserAdapter(private val users: ArrayList<RandomUser>) : RecyclerView.Adapter<RandomUserHolder>() {
 
