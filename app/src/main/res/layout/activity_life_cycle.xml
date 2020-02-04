@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/cosmic"
     tools:context=".LifeCycleActivity">
 
     <androidx.viewpager.widget.ViewPager
@@ -24,7 +23,7 @@
         android:background="@drawable/button_border_settings"
         android:text="@string/change_fragment_button"
         android:textColor="#FFFFFF"
-        android:textSize="24sp"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -52,7 +51,7 @@
         android:textAlignment="center"
         android:textAllCaps="true"
         android:textColor="#FFFFFF"
-        android:textSize="18sp"
+        android:textSize="24sp"
         android:textStyle="italic"
         app:layout_constraintBottom_toTopOf="@+id/buttonFragment"
         app:layout_constraintEnd_toEndOf="parent"

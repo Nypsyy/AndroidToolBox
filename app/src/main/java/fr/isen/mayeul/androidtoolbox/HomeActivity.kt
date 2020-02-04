@@ -2,17 +2,16 @@ package fr.isen.mayeul.androidtoolbox
 
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import com.firebase.ui.auth.AuthUI
 import kotlinx.android.synthetic.main.activity_home.*
 import maes.tech.intentanim.CustomIntent
 
+
 // Home page
 class HomeActivity : AppCompatActivity() {
-
-    // Preference name
-    private val prefName: String = "Shared Preferences"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,7 +20,11 @@ class HomeActivity : AppCompatActivity() {
         // Listeners
         // Disconnect button
         disconnectButton.setOnClickListener {
-            onClickDisconnectButton()
+            signOut()
+        }
+        // Delete user button
+        deleteButton.setOnClickListener {
+            delete()
         }
         // Life cycle button
         lifeCycleButton.setOnClickListener {
@@ -44,19 +47,30 @@ class HomeActivity : AppCompatActivity() {
         CustomIntent.customType(this, "fadein-to-fadeout")
     }
 
-    // Logout button event
-    private fun onClickDisconnectButton() {
-        // Get the main preferences
-        val preferences: SharedPreferences = getSharedPreferences(prefName, Context.MODE_PRIVATE)
-        val editor = preferences.edit()
+    // Sign out user
+    private fun signOut() {
+        AuthUI.getInstance()
+            .signOut(this)
+            .addOnCompleteListener {
+                newIntent(this, LoginActivity::class.java)
+                finish()
+                Toast.makeText(this, "Déconnexion !", Toast.LENGTH_LONG).show()
+            }
+    }
 
-        // Delete all the preferences
-        editor.clear()
-        editor.apply()
-
-        // Disconnect
-        newIntent(this, LoginActivity::class.java)
-        finish()
+    // Delete user
+    private fun delete() {
+        AuthUI.getInstance()
+            .delete(this)
+            .addOnCompleteListener {
+                if (it.isSuccessful) { // Deletion succeeded
+                    newIntent(this, LoginActivity::class.java)
+                    finish()
+                    Toast.makeText(this, "Compte supprimé !", Toast.LENGTH_LONG).show()
+                } else { // Deletion failed
+                    Toast.makeText(this, "N'a pas pu supprimer le compte", Toast.LENGTH_SHORT).show()
+                }
+            }
     }
 
     // Create a new activity and launch it

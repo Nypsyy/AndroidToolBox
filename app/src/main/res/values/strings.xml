@@ -44,9 +44,16 @@
     <string name="test_item">Test</string>
     <string name="call_img">Phone call</string>
     <string name="random_profile_pic">Random image</string>
-    <string name="change_fragment_button">Fragment swap (désactivé)</string>
+    <string name="change_fragment_button">Fragment swap button (désactivé)</string>
     <string name="fragment_one_text">Je suis le fragment 1 (ง ͠° ͟ل͜ ͡°)ง</string>
     <string name="fragment_two_text">Et moi le fragment 2 (▀̿Ĺ̯▀̿ ̿)</string>
     <string name="web_service_img">Download arrow</string>
     <string name="swipe_info">Swipe !</string>
+    <string name="title_activity_email_password_auth">EmailPasswordAuthActivity</string>
+    <string name="delete_user">Supprimer utilisateur</string>
+
+    <!-- FACEBOOK -->
+    <!-- <string name="facebook_application_id" translatable="false">780613675792350</string> -->
+    <!-- Facebook Application ID, prefixed by 'fb'. Enables Chrome Custom tabs. -->
+    <!-- <string name="facebook_login_protocol_scheme" translatable="false">fb780613675792350</string> -->
 </resources>
